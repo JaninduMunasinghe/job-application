@@ -1,6 +1,4 @@
 package com.embarkx.firstjobapp.job;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
