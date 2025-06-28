@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,6 +45,20 @@ public class CompanyController {
             return ResponseEntity.ok("Company created successfully: " + company.getName());
         } catch (RuntimeException e) {
             return ResponseEntity.status(400).body("Error creating company: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCompany(@PathVariable Long id) {
+        try {
+            boolean deleted = companyService.deleteCompany(id);
+            if (deleted) {
+                return ResponseEntity.ok("Company deleted successfully");
+            } else {
+                return ResponseEntity.status(404).body("Company not found with id: " + id);
+            }
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(400).body("Error deleting company: " + e.getMessage());
         }
     }
 
