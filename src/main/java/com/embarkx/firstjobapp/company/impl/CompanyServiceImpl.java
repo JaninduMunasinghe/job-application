@@ -34,4 +34,9 @@ public class CompanyServiceImpl implements CompanyService {
         return companyRepository.save(existingCompany);
     }
 
+    @Override
+    public void createCompany(Company company) {
+        companyRepository.save(company);
+    }
+
 }
