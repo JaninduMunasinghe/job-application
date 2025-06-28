@@ -1,59 +1,57 @@
 package com.embarkx.firstjobapp.job.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.embarkx.firstjobapp.job.Job;
+import com.embarkx.firstjobapp.job.JobRepository;
 import com.embarkx.firstjobapp.job.JobService;
 
 @Service
 public class JobServiceImpl implements JobService{
 
-    private List<Job> jobs = new ArrayList<>();
-    private Long nextId = 1L;
+    JobRepository jobRepository;
+
+
+    public JobServiceImpl(JobRepository jobRepository) {
+        this.jobRepository = jobRepository;
+    }
+
+    
 
     @Override
     public List<Job> findAll() {
-        return jobs;
+        return jobRepository.findAll();
     }
 
     @Override
     public void createJob(Job job) {
-        job.setId(nextId++);
-        jobs.add(job);
+        jobRepository.save(job);
     }
 
     @Override
     public Job getJobById(Long id) {
-        for (Job job : jobs) {
-            if (job.getId().equals(id)) {
-                return job;
-            }
-        }
-        return null;
+       return jobRepository.findById(id).orElse(null);
+
     }
 
     @Override
     public void deleteJob(Long id) {
-        Job jobToDelete = getJobById(id);
-        if (jobToDelete != null) {
-            jobs.remove(jobToDelete);
+        try{
+            jobRepository.deleteById(id);
+        } catch (Exception e) {
+            System.out.println("Error deleting job with id: " + id);
         }
     }
 
     @Override
     public boolean updateJob(Long id, Job updatedJob) {
-        for (Job job : jobs) {
-            if (job.getId().equals(id)) {
-                job.setTitle(updatedJob.getTitle());
-                job.setDescription(updatedJob.getDescription());
-                job.setLocation(updatedJob.getLocation());
-                job.setMinSalary(updatedJob.getMinSalary());
-                job.setMaxSalary(updatedJob.getMaxSalary());
-                return true;
-            }
+        Job existingJob = jobRepository.findById(id).orElse(null);
+        if (existingJob != null) {
+            updatedJob.setId(id);
+            jobRepository.save(updatedJob);
+            return true;
         }
         return false;
     }
