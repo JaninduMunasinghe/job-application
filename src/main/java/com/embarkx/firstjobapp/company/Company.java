@@ -3,6 +3,7 @@ package com.embarkx.firstjobapp.company;
 import java.util.List;
 
 import com.embarkx.firstjobapp.job.Job;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,10 +19,11 @@ public class Company {
     private String name;
     private String description;
     
-    @OneToMany
+    @JsonIgnore
+    @OneToMany(mappedBy = "company")
     private List<Job> jobs;
 
-    
+
 
     public Company() {
     }
