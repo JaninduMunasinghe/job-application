@@ -1,5 +1,7 @@
 package com.embarkx.firstjobapp.review;
 
-public interface ReviewService {
+import java.util.List;
 
+public interface ReviewService {
+    List<Review> getAllReviews(Long companyId);
 }
