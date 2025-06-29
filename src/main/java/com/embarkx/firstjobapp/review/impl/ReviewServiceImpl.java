@@ -65,7 +65,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public void deleteReview(Long companyId, Long reviewId) {
         Review existingReview = getReviewById(companyId, reviewId);
-        if (existingReview != null) {
+        if (existingReview != null) { 
             reviewRepository.delete(existingReview);
         } else {
             throw new IllegalArgumentException("Review with ID " + reviewId + " does not exist for company with ID " + companyId + ".");
