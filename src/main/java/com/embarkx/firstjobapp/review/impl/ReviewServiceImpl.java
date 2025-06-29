@@ -49,4 +49,29 @@ public class ReviewServiceImpl implements ReviewService {
         throw new IllegalArgumentException("Review with ID " + reviewId + " does not exist for company with ID " + companyId + ".");
     }
 
+    @Override
+    public void updateReview(Long companyId, Long reviewId, Review review) throws IllegalArgumentException {
+        Review existingReview = getReviewById(companyId, reviewId);
+        if (existingReview != null) {
+            existingReview.setTitle(review.getTitle());
+            existingReview.setDescription(review.getDescription());
+            existingReview.setRating(review.getRating());
+            reviewRepository.save(existingReview);
+        } else {
+            throw new IllegalArgumentException("Review with ID " + reviewId + " does not exist for company with ID " + companyId + ".");
+        }
+    }
+
+    @Override
+    public void deleteReview(Long companyId, Long reviewId) {
+        Review existingReview = getReviewById(companyId, reviewId);
+        if (existingReview != null) {
+            reviewRepository.delete(existingReview);
+        } else {
+            throw new IllegalArgumentException("Review with ID " + reviewId + " does not exist for company with ID " + companyId + ".");
+        }
+    }
+
+    
+
 }
