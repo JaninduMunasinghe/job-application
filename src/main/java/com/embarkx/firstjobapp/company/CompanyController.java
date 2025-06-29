@@ -62,6 +62,16 @@ public class CompanyController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Company> getCompanyById(@PathVariable Long id) {
+        try {
+            Company company = companyService.getCompanyById(id);
+            return ResponseEntity.ok(company);
+        } catch (RuntimeException e) { 
+            return ResponseEntity.status(404).body(null);
+        }
+    }
+
 
 
 
